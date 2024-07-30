@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Lista de Proyectos";
+}
+
+@model List<GestionTareas.Models.Proyecto>
+<h2>Proyectos</h2>
+
+<a class="btn btn-success mb-3" asp-controller="Proyecto" asp-action="Agregar">Agregar Proyecto</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Codigo de Proyecto</th>
+            <th>Titulo</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProyectoId</td>
+                <td>@item.CodigoProyecto</td>
+                <td>@item.Titulo</td>
+                <td>@item.Descripcion</td>
+                <td>
+                    <a class="btn btn-secondary mb-2"
+                       asp-controller="Proyecto"
+                       asp-action="Editar"
+                       asp-route-id="@item.ProyectoId">
+                        Editar
+                    </a>
+
+                    <a class="btn btn-danger"
+                       asp-controller="Proyecto"
+                       asp-action="Eliminar"
+                       onclick="return confirmar()"
+                       asp-route-id="@item.ProyectoId">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        const confirmar = () => confirm("Esta seguro que deseas eliminar el proyecto?")
+    </script>
+}

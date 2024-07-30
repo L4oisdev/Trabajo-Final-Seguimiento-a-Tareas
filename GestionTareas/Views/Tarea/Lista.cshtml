@@ -1,0 +1,66 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Lista de Tareas";
+}
+
+@model List<GestionTareas.Models.Tarea>
+<h2>Tareas</h2>
+
+<a class="btn btn-success mb-3" asp-controller="Tarea" asp-action="Agregar">Agregar tarea</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Proyecto</th>
+            <th>Titulo</th>
+            <th>Descripción</th>
+            <th>Responsable</th>
+            <th>Fecha de Apertura</th>
+            <th>Fecha de Cierre</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TareaId</td>
+                <td>@item.Proyecto?.CodigoProyecto</td>
+                <td>@item.Titulo</td>
+                <td>@item.Descripcion</td>
+                <td>@item.Responsable?.Nombre</td>
+                <td>@Html.DisplayFor(m=>item.FechaInicio)</td>
+                <td>@Html.DisplayFor(m=>item.FechaFin)</td>
+                <td>@item.Status</td>
+                <td>
+                    <a class="btn btn-secondary mb-2"
+                        asp-controller="Tarea"
+                        asp-action="Editar"
+                        asp-route-id="@item.TareaId">
+                        Editar
+                    </a>
+
+                    <a class="btn btn-danger"
+                        asp-controller="Tarea"
+                       asp-action="EliminarConfirmado"
+                        onclick="return confirmar()"
+                        asp-route-id="@item.TareaId">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        const confirmar = () => confirm("Esta seguro que deseas eliminar la tarea?")
+    </script>
+}
